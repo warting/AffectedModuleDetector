@@ -21,6 +21,8 @@ buildscript {
 
 plugins {
     id("io.gitlab.arturbosch.detekt") version "1.20.0"
+    id("com.autonomousapps.dependency-analysis") version "1.18.0"
+
 }
 
 apply plugin: "org.jlleitschuh.gradle.ktlint"
@@ -31,6 +33,7 @@ affectedModuleDetector {
     pathsAffectingAllModules = [
             "buildSrc/"
     ]
+    logFilename = "output.log"
     specifiedBranch = "origin/main"
     compareFrom = "SpecifiedBranchCommitMergeBase"
     customTasks = [
@@ -38,6 +41,11 @@ affectedModuleDetector {
                     "runDetektByImpact",
                     "detekt",
                     "Run static analysis tool by Impact analysis"
+            ),
+            new AffectedModuleConfiguration.CustomTask(
+                    "runProjectHealthByImpact",
+                    "projectHealth",
+                    "Run project health analysis tool by Impact"
             )
     ]
     logFolder = "${project.rootDir}"
